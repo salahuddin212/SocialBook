@@ -8,9 +8,16 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="signin")
 def index(request):
+    if not Profile.objects.filter(user=request.user).exists():
+        return redirect("signin")
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    return render(request, "index.html", {"user_profile": user_profile})
+
+    feed_posts = Post.objects.all()
+
+    return render(
+        request, "index.html", {"user_profile": user_profile, "feed_posts": feed_posts}
+    )
 
 
 @login_required(login_url="signin")
