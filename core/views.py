@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Post, LikePost
+from .models import Profile, Post, LikePost, FollowersCount
 from django.contrib.auth.decorators import login_required
 
 
@@ -129,11 +129,20 @@ def profile(request, pk):
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Post.objects.filter(user=pk)
     user_post_length = len(user_posts)
+    user_following = FollowersCount.objects.filter(
+        follower=request.user.username, user=user_object.username
+    ).exists()
+    user_followers_count = len(FollowersCount.objects.filter(user=pk))
+    user_following_count = len(FollowersCount.objects.filter(follower=pk))
+
     context = {
         "user_object": user_object,
         "user_profile": user_profile,
         "user_posts": user_posts,
         "user_post_length": user_post_length,
+        "user_following": user_following,
+        "user_followers_count": user_followers_count,
+        "user_following_count": user_following_count,
     }
     return render(request, "profile.html", context)
 
@@ -169,4 +178,23 @@ def like_post(request):
         like_filter.delete()
         post.no_of_likes -= 1
         post.save()
+        return redirect("/")
+
+
+@login_required(login_url="signin")
+def follow(request):
+    if request.method == "POST":
+        follower = request.POST["follower"]
+        user = request.POST["user"]
+
+        if FollowersCount.objects.filter(follower=follower, user=user).first():
+            delete_follower = FollowersCount.objects.get(follower=follower, user=user)
+            delete_follower.delete()
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+        else:
+            new_follower = FollowersCount.objects.create(follower=follower, user=user)
+            new_follower.save()
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+
+    else:
         return redirect("/")

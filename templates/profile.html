@@ -400,8 +400,24 @@
             <div class="profile-info">
                 <div class="profile-username-row">
                     <h1 class="profile-username">{{user_object.username}}</h1>
-                    <button class="follow-btn">Follow</button>
-                    {% comment %} <button class="message-btn">Message</button> {% endcomment %}
+
+                    {% if user_object.username == user.username %}
+                        <a href="/settings">
+                            <button class="follow-btn" type="button">Account Settings</button>
+                        </a>
+                    {% else %}
+                        <form action="/follow" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="follower" value="{{user.username}}">
+                            <input type="hidden" name="user" value="{{user_object.username}}">
+
+                            {% if user_following %}
+                                <button class="follow-btn" type="submit" style="background-color: gray; border-color: gray;">Unfollow</button>
+                            {% else %}
+                                <button class="follow-btn" type="submit">Follow</button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
                 </div>
 
                 <div class="profile-stats">
@@ -414,11 +430,11 @@
                         <span class="stat-label">posts</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-count">1.7M</span>
+                        <span class="stat-count">{{user_followers_count}}</span>
                         <span class="stat-label">followers</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-count">3.5K</span>
+                        <span class="stat-count">{{user_following_count}}</span>
                         <span class="stat-label">following</span>
                     </div>
                 </div>
