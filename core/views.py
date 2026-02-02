@@ -14,18 +14,14 @@ def index(request):
 
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-
     user_following_list = []
-
     user_following = FollowersCount.objects.filter(follower=request.user.username)
 
     for f in user_following:
         user_following_list.append(f.user)
 
     user_following_list.append(request.user.username)
-
     feed_posts = Post.objects.filter(user__in=user_following_list)
-
     all_posts = []
 
     for post in feed_posts:
