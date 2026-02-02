@@ -10,17 +10,24 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     if not Profile.objects.filter(user=request.user).exists():
         return redirect("signin")
+
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    user_profile_image = user_profile.profileimg
-
     feed_posts = Post.objects.all()
+    all_posts = []
+
+    for post in feed_posts:
+        profile = Profile.objects.filter(user__username=post.user).first()
+        if profile:
+            post.profile_img_url = profile.profileimg.url
+        else:
+            post.profile_img_url = None
+        all_posts.append(post)
+
     context = {
         "user_profile": user_profile,
-        "feed_posts": feed_posts,
-        "user_profile_image": user_profile_image,
+        "feed_posts": all_posts,
     }
-
     return render(request, "index.html", context)
 
 
