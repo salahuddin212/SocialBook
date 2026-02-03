@@ -8,9 +8,9 @@
 
 **Social Book** is a robust, full-stack social media application designed to facilitate seamless interaction between users. Built with the power of Django, it provides a clean and responsive interface where users can curate their profiles, share image-based posts, and curate a personalized feed by following other creators.
 
-Whether you're looking to build a niche community or a broad social network, Social Book offers the foundational architecture for a scalable and interactive platform.
+Whether you're looking to build a niche community or a broad social network, Social Book offers the 
+### ✨ Key Featuresfoundational architecture for a scalable and interactive platform.
 
-### ✨ Key Features
 
 * **🔐 Secure Authentication:** Complete user registration and login system with session management.
 * **👤 Dynamic User Profiles:** Fully customizable profiles where users can update their bio, location, and profile pictures.
@@ -116,6 +116,7 @@ We are constantly improving Social Book. Here are a few features we plan to roll
 * [ ] **Comment System:** Allow users to discuss posts in a comments section.
 * [ ] **Direct Messaging:** Real-time private chat between users.
 * [ ] **Notification Center:** Alerts for likes, new followers, and interactions.
+* [ ] **User Suggestion:** Suggest to the user new accounts to follow.
 
 ---
 
