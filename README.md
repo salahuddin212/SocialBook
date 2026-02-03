@@ -133,8 +133,7 @@ Contributions make the open-source community such an amazing place to learn, ins
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
+Distributed under the MIT License. 
 ---
 
 *Made with ❤️ by Salahuddin*
